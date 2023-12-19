@@ -5,8 +5,10 @@
 @inject OmdbApiService OmdbApi
 
 <MudText Typo="Typo.h4" GutterBottom="true">Search Movies</MudText>
-<MudTextField @bind-Value="searchQuery" Label="Enter movie title" Variant="Variant.Filled" AdornmentIcon="Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+<MudTextField @bind-Value="searchQuery" Label="Enter movie title" Variant="Variant.Filled"
+    AdornmentIcon="Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
 <MudButton OnClick="@SearchMovies" Color="Color.Primary" Variant="Variant.Filled">Search</MudButton>
+<button class="clear-button" @onclick="ClearGrid">Clear</button>
 
 <MudTable Items="@movies">
     <HeaderContent>
@@ -16,12 +18,12 @@
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Title">@context.Title</MudTd>
-            <MudTd DataLabel="Year">@context.Year</MudTd>
-            <MudTd DataLabel="Genre">@context.Type</MudTd>
-        </RowTemplate>
-    </MudTable>
+        <MudTd DataLabel="Year">@context.Year</MudTd>
+        <MudTd DataLabel="Genre">@context.Type</MudTd>
+    </RowTemplate>
+</MudTable>
 
-    @if (movies.Count == 0)
+@if (movies.Count == 0)
 {
     errorMessage = "No movies found.";
 }
@@ -31,7 +33,14 @@
     <MudAlert Severity="Severity.Error">@errorMessage</MudAlert>
 }
 
-
+<style type="text/css">
+    .clear-button {
+        /* Style the button as you like */
+        position: absolute;
+        right: 16px;
+        top: 16px;
+    }
+</style>
 
 
 @code {
@@ -51,5 +60,10 @@
         {
             errorMessage = $"Failed to load movies: {ex.Message}";
         }
+    }
+
+    private void ClearGrid()
+    {
+        movies = new List<Movie>();
     }
 }
