@@ -1,0 +1,55 @@
+﻿@page "/"
+@using FindMovies.Models
+@using FindMovies.Services
+@using MudBlazor
+@inject OmdbApiService OmdbApi
+
+<MudText Typo="Typo.h4" GutterBottom="true">Search Movies</MudText>
+<MudTextField @bind-Value="searchQuery" Label="Enter movie title" Variant="Variant.Filled" AdornmentIcon="Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+<MudButton OnClick="@SearchMovies" Color="Color.Primary" Variant="Variant.Filled">Search</MudButton>
+
+<MudTable Items="@movies">
+    <HeaderContent>
+        <MudTh>Title</MudTh>
+        <MudTh>Year</MudTh>
+        <MudTh>Type</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Title">@context.Title</MudTd>
+            <MudTd DataLabel="Year">@context.Year</MudTd>
+            <MudTd DataLabel="Genre">@context.Type</MudTd>
+        </RowTemplate>
+    </MudTable>
+
+    @if (movies.Count == 0)
+{
+    errorMessage = "No movies found.";
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <MudAlert Severity="Severity.Error">@errorMessage</MudAlert>
+}
+
+
+
+
+@code {
+    private string searchQuery = string.Empty; // Or any default value you prefer
+    private List<Movie> movies = new List<Movie>();
+    private int currentPage = 1;
+    private string errorMessage = string.Empty;
+
+    private async Task SearchMovies()
+    {
+        try
+        {
+            movies = await OmdbApi.SearchMovies(searchQuery, currentPage);
+            errorMessage = string.Empty; // Clear previous error messages
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Failed to load movies: {ex.Message}";
+        }
+    }
+}
