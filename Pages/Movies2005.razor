@@ -1,0 +1,29 @@
+@page "/movies-2005"
+@using FindMovies.Models
+@using FindMovies.Services
+@using MudBlazor
+@inject OmdbApiService OmdbApi
+
+<MudText Typo="Typo.h4" GutterBottom="true">Movies from 2005</MudText>
+
+<MudTable Items="@movies2005">
+    <HeaderContent>
+        <MudTh>Title</MudTh>
+        <MudTh>Year</MudTh>
+        <MudTh>Type</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Title">@context.Title</MudTd>
+        <MudTd DataLabel="Year">@context.Year</MudTd>
+        <MudTd DataLabel="Genre">@context.Type</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private List<Movie> movies2005 = new List<Movie>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        movies2005 = await OmdbApi.SearchMoviesByYear("2005");
+    }
+}
