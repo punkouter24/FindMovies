@@ -22,17 +22,14 @@ namespace FindMovies.Services
             }
             catch (HttpRequestException httpEx)
             {
-                // Handle HTTP-specific exceptions, e.g., network errors
                 Console.WriteLine($"HTTP Request Error: {httpEx.Message}");
             }
             catch (Exception ex)
             {
-                // Handle other general exceptions
                 Console.WriteLine($"Error in SearchMovies: {ex.Message}");
             }
             return new List<Movie>();
         }
-
 
         public async Task<List<Movie>> SearchMoviesByYear(string year)
         {

@@ -28,6 +28,10 @@
     </RowTemplate>
 </MudTable>
 
+<MudButton OnClick="@(() => ChangePage(currentPage - 1))" Disabled="@(currentPage == 1)">Back</MudButton>
+<MudButton OnClick="@(() => ChangePage(currentPage + 1))">Forward</MudButton>
+
+
 @if (movies.Count == 0)
 {
     errorMessage = "No movies found.";
@@ -40,7 +44,6 @@
 
 <style type="text/css">
     .clear-button {
-        /* Style the button as you like */
         position: absolute;
         right: 16px;
         top: 16px;
@@ -53,6 +56,13 @@
     private List<Movie> movies = new List<Movie>();
     private int currentPage = 1;
     private string errorMessage = string.Empty;
+
+   private async Task ChangePage(int newPage)
+    {
+        if (newPage < 1) return; // Prevent going to a page less than 1
+        currentPage = newPage;
+        await SearchMovies();
+    }
 
     private async Task SearchMovies()
     {
