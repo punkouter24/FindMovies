@@ -17,7 +17,7 @@ namespace FindMovies.Services
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<OmdbApiResponse>($"https://www.omdbapi.com/?s={title}&page={pageNumber}&apikey={_apiKey}");
+                OmdbApiResponse? response = await _httpClient.GetFromJsonAsync<OmdbApiResponse>($"https://www.omdbapi.com/?s={title}&page={pageNumber}&apikey={_apiKey}");
                 return response?.Search ?? new List<Movie>();
             }
             catch (HttpRequestException httpEx)
@@ -38,15 +38,11 @@ namespace FindMovies.Services
         {
             try
             {
-               // var response = await _httpClient.GetFromJsonAsync<OmdbApiResponse>($"https://www.omdbapi.com/?y={year}&apikey={_apiKey}");
-                // var response = await _httpClient.GetFromJsonAsync<OmdbApiResponse>($"https://www.omdbapi.com/?y=1972&apikey=24d49563&t=xxx");
-                var response = await _httpClient.GetFromJsonAsync<OmdbApiResponse>($"https://www.omdbapi.com/?y=2005&s=xxx&apikey={_apiKey}");
-
+                OmdbApiResponse? response = await _httpClient.GetFromJsonAsync<OmdbApiResponse>($"https://www.omdbapi.com/?y=2005&s=xxx&apikey={_apiKey}");
                 return response?.Search ?? new List<Movie>();
             }
             catch (Exception ex)
             {
-                // Handle exceptions
                 Console.WriteLine($"Error in SearchMoviesByYear: {ex.Message}");
                 return new List<Movie>();
             }
