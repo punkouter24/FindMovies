@@ -28,9 +28,8 @@
     </RowTemplate>
 </MudTable>
 
-<MudButton OnClick="@(() => ChangePage(currentPage - 1))" Disabled="@(currentPage == 1)">Back</MudButton>
-<MudButton OnClick="@(() => ChangePage(currentPage + 1))">Forward</MudButton>
-
+<MudButton Class="spaced-button" OnClick="@(() => ChangePage(currentPage - 1))" Disabled="@(currentPage == 1)">Back</MudButton>
+<MudButton Class="spaced-button" OnClick="@(() => ChangePage(currentPage + 1))">Forward</MudButton>
 
 @if (movies.Count == 0)
 {
@@ -49,7 +48,6 @@
         top: 16px;
     }
 </style>
-
 
 @code {
     private string searchQuery = string.Empty; // Or any default value you prefer
@@ -80,5 +78,6 @@
     private void ClearGrid()
     {
         movies = new List<Movie>();
+        searchQuery = string.Empty; // Add this line to clear the search text
     }
 }
